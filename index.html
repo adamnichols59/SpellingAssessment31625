@@ -4,17 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spelling Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .quiz { max-width: 600px; margin: auto; }
+        .question { margin: 20px 0; }
+    </style>
 </head>
 <body>
-    <h1>Spelling Quiz</h1>
-    <form>
-        <label for="word1">Word 1:</label>
-        <input type="text" id="word1" name="word1"><br>
-        <label for="word2">Word 2:</label>
-        <input type="text" id="word2" name="word2"><br>
-        <label for="word3">Word 3:</label>
-        <input type="text" id="word3" name="word3"><br>
-        <input type="submit" value="Submit">
-    </form>
+    <div class="quiz">
+        <h1>Spelling Quiz</h1>
+        <div id="questions"></div>
+        <button id="submit">Submit</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        const questions = [
+            { question: 'How do you spell the word that means "to see with your eyes"?', answer: 'see' },
+            { question: 'How do you spell the word that is a device for measuring time?', answer: 'clock' },
+            { question: 'How do you spell the word that means "to make a mark"?', answer: 'write' }
+        ];
+
+        const questionsContainer = document.getElementById('questions');
+        questions.forEach((q, index) => {
+            const questionEl = document.createElement('div');
+            questionEl.className = 'question';
+            questionEl.innerHTML = `<label>${q.question}</label><input type='text' id='answer-${index}' />`;
+            questionsContainer.appendChild(questionEl);
+        });
+
+        document.getElementById('submit').addEventListener('click', () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const userAnswer = document.getElementById(
+                    `answer-${index}`
+                ).value;
+                if (userAnswer.toLowerCase() === q.answer) {
+                    score++;
+                }
+            });
+            const resultEl = document.getElementById('result');
+            resultEl.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        });
+    </script>
 </body>
 </html>
